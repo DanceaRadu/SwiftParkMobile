@@ -53,6 +53,17 @@ class MyApp extends StatelessWidget {
         selectedItemColor: ColorPalette.secondary,
         unselectedItemColor: ColorPalette.surface,
       ),
+      bottomSheetTheme: const BottomSheetThemeData(
+        backgroundColor: ColorPalette.backgroundColor, // Set default background color
+      ),
+      elevatedButtonTheme: ElevatedButtonThemeData(
+        style: ElevatedButton.styleFrom(
+          textStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16), // Rounded corners
+          ),
+        ),
+      ),
       textTheme: baseTheme.textTheme.copyWith(
         displayLarge: baseTheme.textTheme.displayLarge?.copyWith(color: Colors.white, letterSpacing: 1.1),
         displayMedium: baseTheme.textTheme.displayMedium?.copyWith(color: Colors.white, letterSpacing: 1.1),

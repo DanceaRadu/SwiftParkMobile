@@ -43,29 +43,37 @@ class ProfilePage extends StatelessWidget {
                 const Text(
                   "Your Cars",
                   style: TextStyle(
-                    color: ColorPalette.secondary,
+                    color: ColorPalette.onSurface,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 const SizedBox(height: 16),
                 const Cars(),
-                const SizedBox(height: 16),
+                const SizedBox(height: 20),
+                SizedBox(
+                  height: 1,
+                  width: double.infinity,
+                  child: Container(
+                    color: Colors.grey,
+                  ),
+                ),
+                const SizedBox(height: 20),
                 const Text(
                   "Your payment methods",
                   style: TextStyle(
-                    color: ColorPalette.secondary,
+                    color: ColorPalette.onSurface,
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 16),
+                const SizedBox(height: 100),
                 OutlinedButton(
                   onPressed: () async {
                     await FirebaseAuth.instance.signOut();
                   },
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color.fromARGB(150, 255, 0, 0), width: 2.0),
+                    side: const BorderSide(color: ColorPalette.error, width: 2.0),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),

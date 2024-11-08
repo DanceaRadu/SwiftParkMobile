@@ -1,11 +1,11 @@
 class Car {
-  final String id;
+  final String? id;
   final String name;
   final String licensePlate;
   final String userId;
 
   Car({
-    required this.id,
+    this.id,
     required this.name,
     required this.licensePlate,
     required this.userId,
@@ -26,5 +26,14 @@ class Car {
       'licensePlate': licensePlate,
       'userId': userId,
     };
+  }
+
+  Car copyWith({String? id}) {
+    return Car(
+      id: id ?? this.id,
+      name: name,
+      licensePlate: licensePlate,
+      userId: userId,
+    );
   }
 }

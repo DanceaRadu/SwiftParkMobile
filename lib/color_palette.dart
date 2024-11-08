@@ -7,6 +7,7 @@ class ColorPalette {
   static const Color onSurface = Color(0xFFFFFFFF);
   static const Color secondary = Color(0xFFCB8177);
   static const Color accent = Color(0xFF7FC35F);
+  static const Color error = Color.fromARGB(150, 255, 0, 0);
 
   static const Color textColor = Color(0xFFFFFFFF);
   static const Color invertedTextColor = Color(0xFF12122B);

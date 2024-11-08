@@ -50,9 +50,7 @@ class _LoginFormState extends State<LoginForm> {
       UserCredential userCredential = await widget.auth.signInWithCredential(credential);
       return userCredential.user;
     } catch (e) {
-      if (kDebugMode) {
         print(e);
-      }
       return null;
     }
   }
