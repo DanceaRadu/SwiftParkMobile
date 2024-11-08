@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:swift_park/pages/profile_page/cars.dart';
 import 'package:swift_park/pages/profile_page/profile_info.dart';
 
 import '../../color_palette.dart';
@@ -40,36 +41,48 @@ class ProfilePage extends StatelessWidget {
                 ),
                 const SizedBox(height: 32),
                 const Text(
-                  "Cars",
+                  "Your Cars",
                   style: TextStyle(
-                    fontSize: 18,
+                    color: ColorPalette.secondary,
+                    fontSize: 24,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                const SizedBox(height: 10),
+                const SizedBox(height: 16),
+                const Cars(),
+                const SizedBox(height: 16),
+                const Text(
+                  "Your payment methods",
+                  style: TextStyle(
+                    color: ColorPalette.secondary,
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 16),
                 OutlinedButton(
                   onPressed: () async {
                     await FirebaseAuth.instance.signOut();
                   },
                   style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: Color.fromARGB(150, 255, 0, 0), width: 2.0), // Border color and width
+                    side: const BorderSide(color: Color.fromARGB(150, 255, 0, 0), width: 2.0),
                     shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0), // Rounded corners
+                      borderRadius: BorderRadius.circular(8.0),
                     ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), // Button padding
+                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                   ),
                   child: const Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Icon(
                         Icons.exit_to_app,
-                        color: Color.fromARGB(150, 255, 0, 0), // Icon color to match border
+                        color: Color.fromARGB(150, 255, 0, 0),
                       ),
-                      SizedBox(width: 8), // Spacing between icon and text
+                      SizedBox(width: 8),
                       Text(
                         "Logout",
                         style: TextStyle(
-                          color: Color.fromARGB(150, 255, 0, 0), // Text color to match border
+                          color: Color.fromARGB(150, 255, 0, 0),
                           fontSize: 16,
                           fontWeight: FontWeight.bold,
                         ),
