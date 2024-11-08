@@ -1,6 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:swift_park/pages/auth_pages/auth_page.dart';
+import 'package:swift_park/pages/home_page.dart';
 import 'color_palette.dart';
 import 'firebase_options.dart';
 
@@ -25,7 +27,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Daily.Drive',
+      title: 'Swift.park',
       theme: _buildTheme(Brightness.dark),
       home: const AuthWrapper(),
     );

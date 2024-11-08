@@ -1,8 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
-
+import 'package:swift_park/pages/auth_pages/register_form.dart';
 import '../../color_palette.dart';
+import 'login_form.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -51,12 +52,12 @@ class _AuthPageState extends State<AuthPage> {
                           child: Column(
                             children: [
                               Icon(
-                                Icons.bar_chart,
+                                Icons.car_rental,
                                 color: ColorPalette.textColor,
                                 size: 120,
                               ),
                               Text(
-                                "Daily.Drive",
+                                "Swift.park",
                                 style: TextStyle(
                                   color: ColorPalette.textColor,
                                   fontSize: 32,
