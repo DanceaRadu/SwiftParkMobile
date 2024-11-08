@@ -31,7 +31,7 @@ class ProfilePage extends StatelessWidget {
                           offset: Offset(0, 4),
                         ),
                       ],
-                      color: ColorPalette.secondary,
+                      color: ColorPalette.darkerSurface,
                       borderRadius: BorderRadius.only(
                         bottomLeft: Radius.circular(20),
                         bottomRight: Radius.circular(20),

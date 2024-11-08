@@ -25,8 +25,26 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
     final parkingLotAsyncValue = ref.watch(parkingLotProvider);
 
     return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: MapView(onMarkerSelected: onParkingLotSelected),
+      padding: const EdgeInsets.fromLTRB(25, 25, 25, 25),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 350,
+            child: MapView(onMarkerSelected: onParkingLotSelected),
+          ),
+          const SizedBox(height: 16),
+          const Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              " Select a parking lot",
+              style: TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          )
+        ],
+      ),
     );
   }
 }
