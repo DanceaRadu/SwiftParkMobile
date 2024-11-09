@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:swift_park/widgets/parking_sessions/parking_session_card.dart';
 import '../../models/parking_session_params.dart';
@@ -23,7 +24,7 @@ class ParkingSessionList extends ConsumerWidget {
             .map((session) => ParkingSessionCard(parkingSession: session, onPay: onPay))
             .toList(),
       ),
-      loading: () => const Center(child: CupertinoActivityIndicator()),
+      loading: () => const Center(child: CircularProgressIndicator()),
       error: (error, stackTrace) => Center(child: Text('Error: $error')),
     );
   }

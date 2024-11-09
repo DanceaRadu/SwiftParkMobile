@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +13,7 @@ import '../../models/parking_session_model.dart';
 import '../../providers/car_provider.dart';
 import '../../providers/parking_lot_provider.dart';
 import '../../models/parking_lot_model.dart';
+import 'package:http/http.dart' as http;
 
 class PaymentPage extends ConsumerStatefulWidget {
   const PaymentPage({super.key});
@@ -34,6 +37,18 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
       return;
     }
 
+    int price = 300;
+    final response = await http.post(
+      Uri.parse('https://getparkingsessionprice-qpdy2scqza-uc.a.run.app'),
+      headers: {'Content-Type': 'application/json'},
+      body: jsonEncode({'parkingSessionId': parkingSession.id}),
+    );
+
+    if (response.statusCode == 200) {
+      Map<String, dynamic> data = jsonDecode(response.body);
+      price = data['price'] * 10;
+    }
+
     DocumentReference docRef = await FirebaseFirestore.instance
         .collection('customers')
         .doc(currentUser.uid)
@@ -43,7 +58,7 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
       'price': "price_1QHX2bRsAXq8UeQDCn1Y4Ic9",
       'client': 'mobile',
       'currency': 'usd',
-      'amount': 300,
+      'amount': price,
       'parkingLotId': selectedParkingLot!.id,
       'licensePlate': parkingSession.licensePlate,
       'metadata': {

@@ -27,7 +27,7 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
 
     Widget activePage = const PaymentPage();
-    var activePageTitle = "Home";
+    var activePageTitle = "Pay parking";
     if(_selectedPageIndex == 1) {
       activePage = const PredictPage();
       activePageTitle = "Predictions";
@@ -54,8 +54,8 @@ class _HomePageState extends State<HomePage> {
           currentIndex: _selectedPageIndex,
           onTap: _selectPage,
           items: const [
-            BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
-            BottomNavigationBarItem(icon: Icon(Icons.auto_graph_outlined), label: "Predict"),
+            BottomNavigationBarItem(icon: Icon(Icons.payments_rounded), label: "Pay"),
+            BottomNavigationBarItem(icon: Icon(Icons.auto_graph_outlined), label: "Overview"),
             BottomNavigationBarItem(icon: Icon(Icons.person), label: "Profile")
           ],
         ),
