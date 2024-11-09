@@ -1,9 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:swift_park/pages/payment_page/map_view.dart';
-import 'package:swift_park/providers/parking_session_provider.dart';
-import 'package:swift_park/widgets/parking_session_list.dart';
+import 'package:swift_park/widgets/parking_sessions/parking_session_list.dart';
 
 import '../../models/car_model.dart';
 import '../../models/parking_session_model.dart';
@@ -19,7 +20,6 @@ class PaymentPage extends ConsumerStatefulWidget {
 }
 
 class _PaymentPageState extends ConsumerState<PaymentPage> {
-
   ParkingLot? selectedParkingLot;
 
   onParkingLotSelected(ParkingLot parkingLot, List<Car> cars) {
@@ -28,8 +28,61 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
     });
   }
 
-  onPayForParkingSession(ParkingSession parkingSession) {
-    // Implement payment logic here
+  onPayForParkingSession(ParkingSession parkingSession) async {
+    User? currentUser = FirebaseAuth.instance.currentUser;
+    if (currentUser == null) {
+      return;
+    }
+
+    DocumentReference docRef = await FirebaseFirestore.instance
+        .collection('customers')
+        .doc(currentUser.uid)
+        .collection('checkout_sessions')
+        .add({
+      'mode': 'payment',
+      'price': "price_1QHX2bRsAXq8UeQDCn1Y4Ic9",
+      'client': 'mobile',
+      'currency': 'usd',
+      'amount': 300,
+      'parkingLotId': selectedParkingLot!.id,
+      'licensePlate': parkingSession.licensePlate,
+    });
+
+    docRef.snapshots().listen((snapshot) async {
+      if (snapshot.exists) {
+        Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
+        if (data != null && data.containsKey('paymentIntentClientSecret') && data.containsKey('ephemeralKeySecret') && data.containsKey('customer')) {
+          String clientSecret = data['paymentIntentClientSecret'];
+          String clientEphemeralKey = data['ephemeralKeySecret'];
+          String customerId = data['customer'];
+
+          await startPaymentProcess(clientSecret, clientEphemeralKey, customerId);
+          docRef.snapshots().listen(null).cancel();
+        }
+      }
+    });
+  }
+
+  Future<void> startPaymentProcess(String clientSecret, String clientEphemeralKey, String customer) async {
+    try {
+      await Stripe.instance.initPaymentSheet(
+        paymentSheetParameters: SetupPaymentSheetParameters(
+          paymentIntentClientSecret: clientSecret,
+          merchantDisplayName: selectedParkingLot != null
+              ? selectedParkingLot!.name
+              : 'Swift.park',
+          style: ThemeMode.system,
+          allowsDelayedPaymentMethods: true,
+          customerId: customer,
+          customerEphemeralKeySecret: clientEphemeralKey,
+        ),
+      );
+      await Stripe.instance.presentPaymentSheet();
+      print('Payment completed successfully');
+    } catch (e) {
+      // Handle initialization errors
+      print('Error initializing payment sheet: $e');
+    }
   }
 
   @override
@@ -43,31 +96,47 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
     final parkingLotAsyncValue = ref.watch(parkingLotProvider);
 
     return carsAsyncValue.when(
-      data: (cars) =>  Padding(
-        padding: const EdgeInsets.fromLTRB(25, 25, 25, 25),
-        child: Column(
-          children: [
-            SizedBox(
+      data: (cars) => Padding(
+        padding: const EdgeInsets.fromLTRB(25, 0, 25, 0),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(
                 height: 350,
-                child: MapView(onMarkerSelected: (lot) => {
-                  onParkingLotSelected(lot, cars)
-                }),
-              ),
-            const SizedBox(height: 16),
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                selectedParkingLot != null
-                    ? selectedParkingLot!.name
-                    : "Select a parking lot",
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
+                child: MapView(
+                  onMarkerSelected: (lot) => onParkingLotSelected(lot, cars),
                 ),
               ),
-            ),
-            Expanded(child: ParkingSessionList(onPay: () {}, licencePlates: cars.map((car) => car.licensePlate).toList()) ),
-          ],
+              const SizedBox(height: 16),
+              Align(
+                alignment: Alignment.center,
+                child: Text(
+                  selectedParkingLot != null
+                      ? selectedParkingLot!.name
+                      : "Select a parking lot",
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              ConstrainedBox(
+                constraints: BoxConstraints(
+                  minHeight: 100, // Adjust as needed
+                  maxHeight: MediaQuery.of(context).size.height * 0.5,
+                ),
+                child: ParkingSessionList(
+                  onPay: onPayForParkingSession,
+                  parkingLotId: selectedParkingLot != null
+                      ? selectedParkingLot!.id
+                      : '-',
+                  licencePlates: cars.map((car) => car.licensePlate).toList(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       error: (error, stackTrace) {

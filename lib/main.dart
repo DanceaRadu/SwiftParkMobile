@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_stripe/flutter_stripe.dart';
 import 'package:swift_park/pages/auth_pages/auth_page.dart';
 import 'package:swift_park/pages/home_page.dart';
 import 'color_palette.dart';
@@ -31,6 +32,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
+    Stripe.publishableKey = 'pk_test_51PATeDRsAXq8UeQDv6ucKJ7odtN1LaifKwrFcjiPiftXrBaJCD5n5PIPKiAH1sxSpv0kh85Lev9LBXoQtmk01bvO00eiwrhhvh';
+    Stripe.instance.applySettings();
+
     return MaterialApp(
       title: 'Swift.park',
       theme: _buildTheme(Brightness.dark),
