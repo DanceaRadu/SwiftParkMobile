@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Swift.park',
       theme: _buildTheme(Brightness.dark),
+      darkTheme: _buildTheme(Brightness.dark),
       home: const AuthWrapper(),
       themeMode: ThemeMode.dark,
     );
