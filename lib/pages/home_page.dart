@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:swift_park/pages/payment_page/payment_page.dart';
-import 'package:swift_park/pages/predict_page/predict_page.dart';
+import 'package:swift_park/pages/predict_page/overview_page.dart';
 import 'package:swift_park/pages/profile_page/profile_page.dart';
 
 import '../color_palette.dart';
@@ -29,8 +29,8 @@ class _HomePageState extends State<HomePage> {
     Widget activePage = const PaymentPage();
     var activePageTitle = "Pay parking";
     if(_selectedPageIndex == 1) {
-      activePage = const PredictPage();
-      activePageTitle = "Predictions";
+      activePage = const OverviewPage();
+      activePageTitle = "Overview";
     }
     if(_selectedPageIndex == 2) {
       activePage = const ProfilePage();

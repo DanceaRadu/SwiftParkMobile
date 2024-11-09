@@ -40,6 +40,7 @@ class MyApp extends StatelessWidget {
       title: 'Swift.park',
       theme: _buildTheme(Brightness.dark),
       home: const AuthWrapper(),
+      themeMode: ThemeMode.dark,
     );
   }
 

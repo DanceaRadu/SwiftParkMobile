@@ -30,7 +30,7 @@ class _ProfilePageState extends State<ProfilePage> {
       case 0:
         return const Cars();
       case 1:
-        return const Text("Payments");
+        return const Text("------");
       default:
         return const HistoryTab();
     }
@@ -41,7 +41,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
     User? user = FirebaseAuth.instance.currentUser;
     Widget renderedTab = getWidget();
-
 
     return Scaffold(
       body: Center(
