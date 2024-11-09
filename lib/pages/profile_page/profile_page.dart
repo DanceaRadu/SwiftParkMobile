@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:swift_park/pages/profile_page/cars.dart';
+import 'package:swift_park/pages/profile_page/history_tab.dart';
 import 'package:swift_park/pages/profile_page/profile_info.dart';
 import 'package:swift_park/pages/profile_page/tab_selector.dart';
 import 'package:swift_park/widgets/logout_button.dart';
@@ -31,7 +32,7 @@ class _ProfilePageState extends State<ProfilePage> {
       case 1:
         return const Text("Payments");
       default:
-        return const Text("Cars");
+        return const HistoryTab();
     }
   }
 
@@ -72,8 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 ProfileTabSelector(selectedIndex: selectedIndex, onTap: onTap),
                 const SizedBox(height: 16),
                 renderedTab,
-                const SizedBox(height: 20),
-                const SizedBox(height: 100),
+                const SizedBox(height: 30),
                 const LogoutButton(),
                 const SizedBox(height: 15),
               ],

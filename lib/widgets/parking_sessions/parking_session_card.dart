@@ -5,16 +5,17 @@ import 'package:swift_park/color_palette.dart';
 
 import '../../models/parking_session_model.dart';
 
-class UnpaidParkingSessionCard extends StatelessWidget {
+class ParkingSessionCard extends StatelessWidget {
 
   final ParkingSession parkingSession;
   final dynamic onPay;
 
-  const UnpaidParkingSessionCard({super.key, required this.parkingSession, required this.onPay});
+  const ParkingSessionCard({super.key, required this.parkingSession, required this.onPay});
 
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: ColorPalette.darkerSurface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(12),
       ),
@@ -23,7 +24,7 @@ class UnpaidParkingSessionCard extends StatelessWidget {
         contentPadding: const EdgeInsets.all(16),
         title: Text(
           parkingSession.licensePlate,
-          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: ColorPalette.backgroundColor),
+          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -31,18 +32,18 @@ class UnpaidParkingSessionCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               "Spot: ${parkingSession.designatedParkingSpot}",
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16, color: Colors.white), // Set text color to white
             ),
             const SizedBox(height: 4),
             Text(
               "Entry: ${DateFormat('yyyy-MM-dd HH:mm').format(parkingSession.entryTime.toDate())}",
-              style: const TextStyle(fontSize: 16),
+              style: const TextStyle(fontSize: 16, color: Colors.white), // Set text color to white
             ),
             if (parkingSession.exitTime != null) ...[
               const SizedBox(height: 4),
               Text(
                 "Exit: ${DateFormat('yyyy-MM-dd HH:mm').format(parkingSession.exitTime!.toDate())}",
-                style: const TextStyle(fontSize: 16),
+                style: const TextStyle(fontSize: 16, color: Colors.white), // Set text color to white
               ),
             ],
             const SizedBox(height: 4),

@@ -1,6 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:swift_park/widgets/parking_sessions/unpaid_parking_session_card.dart';
+import 'package:swift_park/widgets/parking_sessions/parking_session_card.dart';
 import '../../models/parking_session_params.dart';
 import '../../providers/parking_session_provider.dart';
 
@@ -18,13 +18,10 @@ class ParkingSessionList extends ConsumerWidget {
     ));
 
     return parkingSessions.when(
-      data: (sessionList) => ListView.builder(
-        physics: const NeverScrollableScrollPhysics(),
-        itemCount: sessionList.length,
-        itemBuilder: (context, index) {
-          final session = sessionList[index];
-          return UnpaidParkingSessionCard(parkingSession: session, onPay: onPay);
-        },
+      data: (sessionList) => Column(
+        children: sessionList
+            .map((session) => ParkingSessionCard(parkingSession: session, onPay: onPay))
+            .toList(),
       ),
       loading: () => const Center(child: CupertinoActivityIndicator()),
       error: (error, stackTrace) => Center(child: Text('Error: $error')),

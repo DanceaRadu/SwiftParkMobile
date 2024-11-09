@@ -46,6 +46,9 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
       'amount': 300,
       'parkingLotId': selectedParkingLot!.id,
       'licensePlate': parkingSession.licensePlate,
+      'metadata': {
+        'parkingSessionId': parkingSession.id,
+      },
     });
 
     docRef.snapshots().listen((snapshot) async {
@@ -122,18 +125,12 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
                 ),
               ),
               const SizedBox(height: 16),
-              ConstrainedBox(
-                constraints: BoxConstraints(
-                  minHeight: 100, // Adjust as needed
-                  maxHeight: MediaQuery.of(context).size.height * 0.5,
-                ),
-                child: ParkingSessionList(
-                  onPay: onPayForParkingSession,
-                  parkingLotId: selectedParkingLot != null
-                      ? selectedParkingLot!.id
-                      : '-',
-                  licencePlates: cars.map((car) => car.licensePlate).toList(),
-                ),
+              ParkingSessionList(
+                onPay: onPayForParkingSession,
+                parkingLotId: selectedParkingLot != null
+                    ? selectedParkingLot!.id
+                    : '-1',
+                licencePlates: cars.map((car) => car.licensePlate).toList(),
               ),
             ],
           ),

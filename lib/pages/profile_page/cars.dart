@@ -110,7 +110,6 @@ class CarsState extends ConsumerState<Cars> {
     );
   }
 
-
   @override
   Widget build(BuildContext context) {
     User? currentUser = FirebaseAuth.instance.currentUser;

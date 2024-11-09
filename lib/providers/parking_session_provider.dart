@@ -9,3 +9,8 @@ final userParkingSessionsProvider = StreamProvider.autoDispose.family<List<Parki
   final parkingSessionService = ref.watch(parkingSessionServiceProvider);
   return parkingSessionService.getParkingSessionsFromLicensePlates(params);
 });
+
+final userPaidParkingSessionsProvider = StreamProvider.autoDispose.family<List<ParkingSession>, List<String>>((ref, licencePlates) {
+  final parkingSessionService = ref.watch(parkingSessionServiceProvider);
+  return parkingSessionService.getPaidParkingSessionsFromLicensePlates(licencePlates);
+});

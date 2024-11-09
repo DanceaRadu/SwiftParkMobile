@@ -18,4 +18,15 @@ class ParkingSessionService {
         .map((doc) => ParkingSession.fromJson(doc.data(), doc.id))
         .toList());
   }
+
+  Stream<List<ParkingSession>> getPaidParkingSessionsFromLicensePlates(List<String> licensePlates) {
+    return _firestore
+        .collection('parking_sessions')
+        .where('licensePlate', whereIn: licensePlates)
+        .where('isPaid', isEqualTo: true)
+        .snapshots()
+        .map((snapshot) => snapshot.docs
+        .map((doc) => ParkingSession.fromJson(doc.data(), doc.id))
+        .toList());
+  }
 }
