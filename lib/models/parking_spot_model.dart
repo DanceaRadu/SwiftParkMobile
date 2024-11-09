@@ -10,7 +10,7 @@ class ParkingSpot {
   factory ParkingSpot.fromMap(Map<String, dynamic> data) {
     return ParkingSpot(
       designation: data['designation'] as String,
-      level: data['floor'] as int,
+      level: data['level'] as int,
     );
   }
 

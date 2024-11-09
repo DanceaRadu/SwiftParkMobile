@@ -15,7 +15,30 @@ class ParkingSession {
     required this.designatedParkingSpot,
     required this.licensePlate,
     required this.entryTime,
-    required this.exitTime,
+    this.exitTime,
     required this.isPaid,
   });
+
+  factory ParkingSession.fromJson(Map<String, dynamic> data, String documentId) {
+    return ParkingSession(
+      id: documentId,
+      parkingLotId: data['parkingLotId'] as String,
+      designatedParkingSpot: data['designatedParkingSpot'] as String,
+      licensePlate: data['licensePlate'] as String,
+      entryTime: data['entryTime'] as Timestamp,
+      exitTime: data['exitTime'] != null ? data['exitTime'] as Timestamp : null,
+      isPaid: data['isPaid'] as bool,
+    );
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'parkingLotId': parkingLotId,
+      'designatedParkingSpot': designatedParkingSpot,
+      'licensePlate': licensePlate,
+      'entryTime': entryTime,
+      if (exitTime != null) 'exitTime': exitTime,
+      'isPaid': isPaid,
+    };
+  }
 }
