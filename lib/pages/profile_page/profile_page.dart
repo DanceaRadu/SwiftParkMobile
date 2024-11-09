@@ -2,16 +2,45 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:swift_park/pages/profile_page/cars.dart';
 import 'package:swift_park/pages/profile_page/profile_info.dart';
+import 'package:swift_park/pages/profile_page/tab_selector.dart';
+import 'package:swift_park/widgets/logout_button.dart';
 
 import '../../color_palette.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
+
+  @override
+  State<ProfilePage> createState() => _ProfilePageState();
+}
+
+class _ProfilePageState extends State<ProfilePage> {
+
+  int selectedIndex = 0;
+
+  void onTap(int index) {
+    setState(() {
+      selectedIndex = index;
+    });
+  }
+
+  Widget getWidget() {
+    switch (selectedIndex) {
+      case 0:
+        return const Cars();
+      case 1:
+        return const Text("Payments");
+      default:
+        return const Text("Cars");
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
 
     User? user = FirebaseAuth.instance.currentUser;
+    Widget renderedTab = getWidget();
+
 
     return Scaffold(
       body: Center(
@@ -40,64 +69,12 @@ class ProfilePage extends StatelessWidget {
                     child: ProfileInfo(user: user)
                 ),
                 const SizedBox(height: 32),
-                const Text(
-                  "Your Cars",
-                  style: TextStyle(
-                    color: ColorPalette.onSurface,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                ProfileTabSelector(selectedIndex: selectedIndex, onTap: onTap),
                 const SizedBox(height: 16),
-                const Cars(),
+                renderedTab,
                 const SizedBox(height: 20),
-                SizedBox(
-                  height: 1,
-                  width: double.infinity,
-                  child: Container(
-                    color: Colors.grey,
-                  ),
-                ),
-                const SizedBox(height: 20),
-                const Text(
-                  "Your payment methods",
-                  style: TextStyle(
-                    color: ColorPalette.onSurface,
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
                 const SizedBox(height: 100),
-                OutlinedButton(
-                  onPressed: () async {
-                    await FirebaseAuth.instance.signOut();
-                  },
-                  style: OutlinedButton.styleFrom(
-                    side: const BorderSide(color: ColorPalette.error, width: 2.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8.0),
-                    ),
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.exit_to_app,
-                        color: Color.fromARGB(150, 255, 0, 0),
-                      ),
-                      SizedBox(width: 8),
-                      Text(
-                        "Logout",
-                        style: TextStyle(
-                          color: Color.fromARGB(150, 255, 0, 0),
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                const LogoutButton(),
                 const SizedBox(height: 15),
               ],
             ),

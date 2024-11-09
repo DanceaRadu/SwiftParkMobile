@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_map/flutter_map.dart';
-import 'package:latlong2/latlong.dart';
 import 'package:swift_park/pages/payment_page/map_view.dart';
 
 import '../../providers/parking_lot_provider.dart';
@@ -16,8 +14,12 @@ class PaymentPage extends ConsumerStatefulWidget {
 
 class _PaymentPageState extends ConsumerState<PaymentPage> {
 
+  ParkingLot? selectedParkingLot;
+
   onParkingLotSelected(ParkingLot parkingLot) {
-    print('Parking lot selected: ${parkingLot.name}');
+    setState(() {
+      selectedParkingLot = parkingLot;
+    });
   }
 
   @override
@@ -33,11 +35,13 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
             child: MapView(onMarkerSelected: onParkingLotSelected),
           ),
           const SizedBox(height: 16),
-          const Align(
-            alignment: Alignment.centerLeft,
+          Align(
+            alignment: Alignment.center,
             child: Text(
-              " Select a parking lot",
-              style: TextStyle(
+              selectedParkingLot != null
+                  ? selectedParkingLot!.name
+                  : "Select a parking lot",
+              style: const TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
