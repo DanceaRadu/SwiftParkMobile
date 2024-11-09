@@ -132,6 +132,7 @@ class _PaymentPageState extends ConsumerState<PaymentPage> {
                     : '-1',
                 licencePlates: cars.map((car) => car.licensePlate).toList(),
               ),
+              const SizedBox(height: 16),
             ],
           ),
         ),
