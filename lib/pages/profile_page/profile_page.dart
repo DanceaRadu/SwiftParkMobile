@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:swift_park/pages/profile_page/cars.dart';
 import 'package:swift_park/pages/profile_page/history_tab.dart';
+import 'package:swift_park/pages/profile_page/payment_methods.dart';
 import 'package:swift_park/pages/profile_page/profile_info.dart';
 import 'package:swift_park/pages/profile_page/tab_selector.dart';
 import 'package:swift_park/widgets/logout_button.dart';
@@ -30,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
       case 0:
         return const Cars();
       case 1:
-        return const Text("------");
+        return const PaymentMethods();
       default:
         return const HistoryTab();
     }
